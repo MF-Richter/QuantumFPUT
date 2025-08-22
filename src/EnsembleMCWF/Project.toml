@@ -1,0 +1,7 @@
+name = "EnsembleMCWF"
+uuid = "bd2a4419-c8ab-4a5c-8b3c-7674055044c4"
+authors = ["mr1214 "]
+version = "0.1.0"
+
+[deps]
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"

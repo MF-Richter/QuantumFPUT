@@ -1,0 +1,7 @@
+name = "NormalModes"
+uuid = "dd047639-d50b-4ce3-b62c-a6204ca9fa86"
+authors = ["mr1214 "]
+version = "0.1.0"
+
+[deps]
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"

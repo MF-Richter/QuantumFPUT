@@ -1,0 +1,46 @@
+# Ignore Julia package environments and compiled artifacts
+/.julia/
+/Manifest.toml
+/artifacts/
+/deps/
+
+# Ignore Julia REPL history and notebook checkpoints
+.julia_history
+.julia_backup
+*.ipynb_checkpoints
+
+# Ignore results, and cache directories (customize as needed)
+results/
+cache/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Your custom ignores
+Instantiate_QuantumFPUT.jl
+intro.jl
+PkgInstallations.jl
+JustShowSomething.jl
+Playground.jl
+COMPUTE_TEST.jl
+
+# Ignore everything in the subfolder of data...
+data/EnsembleTrajectories/*
+data/KetTrajectories/*
+data/ReducedTrajectories/*
+data/InformationFlow/*
+data/Correlations/*
+
+# ...except .gitkeep files in any subfolder
+data/EnsembleTrajectories/.gitkeep
+data/KetTrajectories/.gitkeep
+data/ReducedTrajectories/.gitkeep
+data/InformationFlow/.gitkeep
+data/Correlations/.gitkeep
+
+# Ignore editor/project files (optional, for common editors)
+.vscode/
+.idea/
+*.swp
+*~

@@ -1,0 +1,20 @@
+name = "QuantumFPUT"
+authors = ["Moritz F. Richter"]
+
+[deps]
+Correlations = "050158f2-73c5-447d-a6d6-9d6931774d5d"
+DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
+EnsembleMCWF = "bd2a4419-c8ab-4a5c-8b3c-7674055044c4"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+HamiltonianFPUT = "f47aa066-cd87-4623-80a7-3bd2f93e638f"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+NormalModes = "dd047639-d50b-4ce3-b62c-a6204ca9fa86"
+OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
+ReduceSystems = "6cea355b-dddb-4863-848c-f67128ddd87e"
+StateCharacteristics = "41507684-d03f-44b0-aa99-0e69882e20de"
+
+[compat]
+DrWatson = "2.18.0"
+julia = "1.10.8"

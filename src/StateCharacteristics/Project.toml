@@ -1,0 +1,8 @@
+name = "StateCharacteristics"
+uuid = "41507684-d03f-44b0-aa99-0e69882e20de"
+authors = ["mr1214 "]
+version = "0.1.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+QuantumOptics = "6e0679c1-51ea-5a7c-ac74-d61b76210b0c"
