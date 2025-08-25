@@ -8,7 +8,7 @@ $V(\Delta q) = \frac{\kappa}{2}\Delta q^2 + \frac{\alpha}{3!}\Delta q^3 + \frac{
 
 i.e. a harmonic chain of coupling strength $\kappa$ with some anharmonic perturbation of strength $\alpha$ and $\beta$. FPUT studied this chain originally in context energy sharing between its normal modes to test the ergodicity hypothesis (which in fact they found not to be fulfilled for this model)[1].
 
-[QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) allows to construct such a FPUT chain of quantum oscillators of arbitrary length and coupling strengths. The Hilbert space effectively is the tensor product of the Hilbert spaces for the single oscillators (called sites). [QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) provides tools to construct their mutual Hamiltonian and initial states by exciting either a single site by a coherent of Fock state, or excite the whole chain in one of its normal modes, i.e. each site starts in a coherent state of the corresponding displacement. The chain is then evolved by the its Hamiltonian according to the Schroedinger equation. Additionally, one can attach a thermal bath at single sites and evolve the chain by a Lindblad equation using the quantum jump method with Monte-Carlo wave functions [2,3,4]. [QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) further provides modules to reduce the chains ket states or ensembles of such to local density operators at single sites and compute further from them data like information flow, correlations, phase-space means ect.
+[QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) allows to construct such a FPUT chain of quantum oscillators of arbitrary length and coupling strengths. The whole project is build using the package [QuantumOptics](https://github.com/qojulia/QuantumOptics.jl), the differential equations are solved under the hood using [DifferentialEquations](https://github.com/SciML/DifferentialEquations.jl). The Hilbert space effectively is the tensor product of the Hilbert spaces for the single oscillators (called sites). [QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) provides tools to construct their mutual Hamiltonian and initial states by exciting either a single site by a coherent of Fock state, or excite the whole chain in one of its normal modes, i.e. each site starts in a coherent state of the corresponding displacement. The chain is then evolved by the its Hamiltonian according to the Schroedinger equation. Additionally, one can attach a thermal bath at single sites and evolve the chain by a Lindblad equation using the quantum jump method with Monte-Carlo wave functions [2,3,4]. [QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) further provides modules to reduce the chains ket states or ensembles of such to local density operators at single sites and compute further from them data like information flow, correlations, phase-space means ect.
 
 To study the information flow through a FPUT chain and the effects of anharmonic coupling to it [QuantumFPUT](https://github.com/MF-Richter/QuantumFPUT) uses the Breuer-Laine-Piilo (BLP) measure based on the trace distance between quantum density operators [5,6,7], while [ClassicalFPUT](https://github.com/MF-Richter/ClassicalFPUT) uses the classical limit of the BLP measure based on the Kolmogorov distance between phase-space distributions [8,9]. The phase-space distributions can be approximated by initializing the chain in an ensemble as described above.
 
@@ -16,7 +16,6 @@ To study the information flow through a FPUT chain and the effects of anharmonic
 
 ## Author
 - Moritz F. Richter
-
 
 
 ## Installation & Setup
@@ -45,9 +44,15 @@ using DrWatson
 which auto-activate the project and enable local path handling from DrWatson.
 
 
+## Acknowledgments
+
+This work has been supported by the German Research Foundation (DFG) through FOR 5099.
+
+
 ## Data Availability
 
 - “Raw data not included. Please request from author.”
+
 
 ## References
 [1] S. Ulam (and M. Tsingou) E. fermi, J. Pasta. Studies of nonlinear problems. Los Alamos Report, (LA-1940), 1955.
@@ -67,6 +72,7 @@ which auto-activate the project and enable local path handling from DrWatson.
 [8] Moritz Ferdinand Richter, Raphael Wiedenmann, and Heinz-Peter Breuer. Witnessing non-markovianity by quantum quasi-probability distributions. New Journal of Physics, 2022.
 
 [9] Moritz F. Richter and Heinz-Peter Breuer. Phase-space measures of information flow in open systems: A quantum and classical perspective of non-markovianity. Phys. Rev. A, 110:062401, Dec 2024.
+
 
 ## License
 
