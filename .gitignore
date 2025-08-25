@@ -33,11 +33,11 @@ data/InformationFlow/*
 data/Correlations/*
 
 # ...except .gitkeep files in any subfolder
-data/EnsembleTrajectories/.gitkeep
-data/KetTrajectories/.gitkeep
-data/ReducedTrajectories/.gitkeep
-data/InformationFlow/.gitkeep
-data/Correlations/.gitkeep
+!data/EnsembleTrajectories/.gitkeep
+!data/KetTrajectories/.gitkeep
+!data/ReducedTrajectories/.gitkeep
+!data/InformationFlow/.gitkeep
+!data/Correlations/.gitkeep
 
 # Ignore editor/project files (optional, for common editors)
 .vscode/
