@@ -19,6 +19,7 @@ To study the information flow through a FPUT chain and the effects of anharmonic
 
 
 ## Installation & Setup
+Since the plotting is done by [PyPlot](https://github.com/JuliaPy/PyPlot.jl), make sure that you have a stable version of matplotlib.pyplot for python installed.
 
 This code base is using the [Julia Language](https://julialang.org/) and [DrWatson](https://juliadynamics.github.io/DrWatson.jl/stable/) to make a reproducible scientific project named
 To (locally) reproduce this project, do the following:
