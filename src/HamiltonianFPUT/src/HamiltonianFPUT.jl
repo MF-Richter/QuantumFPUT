@@ -1,3 +1,11 @@
+
+"""
+The module HamiltonianFPUT contains several functions to build the Hamiltonian operator for a FPUT chain of
+arbitrary length and coupling. It also provides functions to create jump operators and jumping rates for the
+Monte-Carlo wave function technique to attach a thermal bath to single sites of the chain and evolve it
+by the quantum optical master equation (Lindblad equation). Finally, some functions are also given to build
+a locally excited initial state of the chain.
+"""
 module HamiltonianFPUT
 
     import QuantumOptics: Ket, Operator, FockBasis, fockstate, create, destroy, identityoperator, ⊗, dagger
@@ -22,13 +30,13 @@ module HamiltonianFPUT
     end
 
     """
-    Building a operator at one 'site' of a FPUT chain with 'N' elements. 'singlebasis' is the Fock basis of each single
-    chain element.
+    Creating an multipartite operator on a chain with 'N' sites, which acts on one 'site' as the monopartite
+    'operator' and as the identity operator on the remaining sites. 
     """    
     function operator_at_site(
-        O::Operator,   # single oscillator operator
-        N::Int64,      # number of chain elements
-        site::Int64, # site of operator
+        O::Operator,  # monopartite operator
+        N::Int64,     # number sites in the chain
+        site::Int64,  # site on which the operator acts
         )
 
         basis = O.basis_l
@@ -51,7 +59,7 @@ module HamiltonianFPUT
 
 
     """
-    Builds the kinetic term of the Hamiltonian of a FPUT chain with 'N' elements
+    Kinetic term of the Hamiltonian of a FPUT chain with 'N' elements
     """
     function KineticOpFPUT(
         N::Int64,               # number of chain elements
@@ -69,22 +77,20 @@ module HamiltonianFPUT
     end
 
     """
-    Builds the potential term of the Hamiltonian of a FPUT chain with 'N' elements and fixed ends.
+    Potential term of the Hamiltonian of a FPUT chain with 'N' elements and fixed ends.
     """    
     function PotentialOpFPUT_fixed(
         N::Int64,    # number of chain elements
         κ::Float64,  # strength of harmonic interaction
         α::Float64,  # strengt of cubic interaction
         β::Float64,  # strength of tetric interaction
-        singlebasis::FockBasis;  # basis of single chain element
-
-        potential_factor::Float64 = 1.0
+        singlebasis::FockBasis  # basis of single chain element
         )
 
         Q = position(singlebasis)  # position operator of single oscillator
 
-        # potentail from ONE side to each chain element
-        potential(O::Operator) = potential_factor * (κ/2*O^2 + α/6*O^3 + β/24*O^4)
+        # FPUT potential
+        potential(O::Operator) = κ/2*O^2 + α/6*O^3 + β/24*O^4
 
         V = potential_factor * potential(-operator_at_site(Q,N,1))
         for i in 1:(N-1)
@@ -96,69 +102,25 @@ module HamiltonianFPUT
 
 
     """
-    Builds the potential term of the Hamiltonian of a FPUT chain with 'N' elements and closed ends, i.e. periodic boundry conditions.
-    Only for developement usage so far
-    """
-    function PotentialOpFPUT_periodic(
-        N::Int64,    # number of chain elements
-        κ::Float64,  # strength of harmonic interaction
-        α::Float64,  # strengt of cubic interaction
-        β::Float64,  # strength of tetric interaction
-        singlebasis::FockBasis;  # basis of single chain element
-
-        potential_factor::Float64 = 1.0
-        )
-
-        Q = position(singlebasis)  # position operator of single oscillator
-        id = identityoperator(singlebasis)
-
-        # potentail from ONE side to each chain element
-        potential(O::Operator) = potential_factor * (κ/2*O^2 + α/6*O^3 + β/24*O^4)
-
-        # build potential/interaction Hamiltonian; best try out by hand to see that it does ;-)
-        Q_left  = Q⊗id  # potition operator of left most chain element
-        Q_right = id⊗Q  # potition operator of right most chain element
-
-        I_left = potential(Q⊗id-id⊗Q) # interaction to the left
-        I_right = I_left                # interaction to the right
-        I = I_left                      # interaction for 2 chain elements
-
-        if N<=2
-            return I
-        else
-            ## bulidng iteratively the interactions within the chain
-            for i in 3:N
-                Q_left = Q_left⊗id      # trivial extension of coupling to left fixed end
-                Q_right = id⊗Q_right    # trivial extension of coupling to right fixed end
-                I_left = I⊗id         # new left part of interaction is old interaction with trivial extension to the right
-                I_right = id⊗I_right  # new right part of interaction is old right part with trivial extension to the left 
-                I = I_left + I_right   # new interaction is new left part plus new right part
-            end
-            I_closing = potential(Q_right - Q_left)  # interaction between left most and right most ends to close the loop
-            return  I + I_closing
-        end
-    end
-
-    """
-    Returns the Hamiltonian of a FPUT chain with 'N' elements and fixed ends.
+    Returns the Hamiltonian of a FPUT chain with 'N' elements and fixed ends for the coupling coefficients
+    'κ', 'α' and 'β'.
     """
     function HamOpFPUT(
         N::Int64,    # number of chain elements
         κ::Float64,  # strength of harmonic interaction
         α::Float64,  # strengt of cubic interaction
         β::Float64,  # strength of tetric interaction
-        singlebasis::FockBasis;  # basis of single chain element
-        potential_factor::Float64 = 1.0,
+        singlebasis::FockBasis  # basis of single chain element
         )
 
         HamT = KineticOpFPUT(N, singlebasis)
-        HamV = PotentialOpFPUT_fixed(N, κ,α,β, singlebasis; potential_factor=potential_factor)
+        HamV = PotentialOpFPUT_fixed(N, κ,α,β, singlebasis)
         return HamT + HamV
     end
 
 
     """
-    Planck distribution of a bosonic field at temperature kbT
+    Planck distribution of a bosonic field at temperature 'kbT'
     """
     function PlanckDistribution(kbT::Float64)
         if kbT == 0.0
@@ -170,9 +132,9 @@ module HamiltonianFPUT
 
 
     """
-    Returns a vector containing the jump rates for a bosonic bath at temperature 'kbT' and coupling strength 'γ' attached
-    to the subsystems - indexed by 'BathSites' - of a multipartite system. If no vector 'BathSites' is passed only a single
-    bath is assumed and thus, the information is not needed.
+    Returns a vector containing the jump rates for a bosonic bath at temperature 'kbT' and coupling strength
+    'γ' attached to the subsystems - indexed by 'BathSites' - of a multipartite system. If no vector 'BathSites'
+    is passed only a single bath is assumed and thus, the information is not needed.
     """
     function JumpRates(kbT::Float64, γ::Float64)
         η = PlanckDistribution(kbT)
@@ -191,8 +153,8 @@ module HamiltonianFPUT
 
 
     """
-    Returns a vector containing the jump operators to the subsystems - indexed by 'BathSites' - of a multipartite system. If
-    only a single integer 'BathSite' is passed only a single bath at this side is assumed.
+    Returns a vector containing the jump operators to the subsystems - indexed by 'BathSites' - of a multipartite
+    system. If only a single integer 'BathSite' is passed only a single bath at this side is assumed.
     """
     function JumpOperators(J::Operator, N::Int64, BathSite::Int64)
         return [operator_at_site(J,N,BathSite), dagger(operator_at_site(J,N,BathSite))]
@@ -210,8 +172,8 @@ module HamiltonianFPUT
 
 
     """
-    This function builds the ket state of a FPUT chain with 'N' elements where the the element at 'site' is excited to the state 'ket'
-    while all other chain elements remain in their ground state (i.e. Fock state |o>).  
+    This function builds the ket state of a FPUT chain with 'N' elements where the element at 'site' is excited
+    to the state 'ket' while all other chain elements remain in their ground state (i.e. Fock state |0>).  
     """
     function localKets(
         ketS::Ket,  # state vector of initial exitation at site k
@@ -238,46 +200,5 @@ module HamiltonianFPUT
 
         return ketCHAIN
     end
-
-
-    # """
-    # This function builds the ket state of a FPUT chain with 'N' elements where the the element at 'site' is excited to the state 'ket'
-    # while all other chain elements remain in their ground state (i.e. Fock state |o>).  
-    # """
-    # function EntangledKets(
-    #     ket1::Ket,  # state vector of initial exitation at site k
-    #     ket2::Ket,  # state vector of initial exitation at site k
-    #     N::Int64,   # number of chain elements
-    #     plus::Bool=true; # signe of superposition
-    #     siteA::Int64=1,  # site of 1st oscillator in the entanglement
-    #     siteB::Int64=N   # site of 2nd oscillator in the entanglement
-    #     )
-
-    #     if ket1.basis != ket2.basis
-    #         error("ket1 and ket2 do not have the same basis")
-    #     else
-    #         singlebasis = ket1.basis
-    #     end
-
-    #     ketCHAIN1 = ket1
-    #     ketCHAIN2 = ket2
-
-    #     # iteratively attaching all necessary ground states to the left
-    #     if siteA>1
-    #         for i in 2:site
-    #             ketCHAIN1 = fockstate(singlebasis,0)⊗ketCHAIN1
-    #             ketCHAIN2 = fockstate(singlebasis,0)⊗ketCHAIN2
-    #         end
-    #     end
-
-    #     # iteratively attaching all remaining ground states to the right
-    #     if siteS<N
-    #         for i in (siteS+1):N
-    #             ketCHAIN1 = ketCHAIN1⊗fockstate(singlebasis,0)
-    #         end
-    #     end
-
-    #     return ketCHAIN
-    # end
 
 end
