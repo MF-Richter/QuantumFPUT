@@ -1,3 +1,7 @@
+"""
+The module 'StateCharacteristics' contains several quantities, such as mean values and (co)variances of
+number operators or phase-space quadratures, as well as benchmarking quantities for the dimension cutoff.
+"""
 module StateCharacteristics
 
     import LinearAlgebra: det, eigvals
@@ -84,7 +88,9 @@ module StateCharacteristics
         return atan(p,q)
     end
 
-
+    """
+    position-position entry of the covariance matrix of a 'state' given by its density matrix
+    """
     function covariance_qq(state::Operator)
         basis = state.basis_l
         Q = position(basis)
@@ -92,6 +98,9 @@ module StateCharacteristics
         return 2*real(tr(Q^2*state)) - 2*q^2
     end
 
+    """
+    momentum-momentum entry of the covariance matrix of a 'state' given by its density matrix
+    """
     function covariance_pp(state::Operator)
         basis = state.basis_l
         P = momentum(basis)
@@ -99,6 +108,9 @@ module StateCharacteristics
         return 2*real(tr(P^2*state)) - 2*p^2
     end
 
+    """
+    position-momentum entry of the covariance matrix of a 'state' given by its density matrix
+    """
     function covariance_qp(state::Operator)
         basis = state.basis_l
         Q, P = position(basis), momentum(basis)
@@ -106,18 +118,26 @@ module StateCharacteristics
         return real(tr(Q*P*state + P*Q*state)) - 2*q*p
     end
 
+    """
+    Covariance matrix of a 'state' given by its density matrix
+    """
     function covariancematrix(state::Operator)
-        # Σqq, Σpp, Σqp = covariance_qq(state), covariance_pp(state), covariance_qp(state)
         Σqq = covariance_qq(state)
         Σpp = covariance_pp(state)
         Σqp = covariance_qp(state)
         return [Σqq Σqp; Σqp Σpp]
     end
 
+    """
+    Determinante of the covariance matrix of a 'state' given by its density matrix
+    """
     function covariancedeterminant(state::Operator)
         return det(covariancematrix(state))  
     end
 
+    """
+    Squeezing parameter of the covariance matrix of a 'state' given by its density matrix
+    """
     function covariancesqueezing(state::Operator)
         σ1,σ2 = abs.(eigvals(covariancematrix(state)))
         return 1-σ1/σ2
@@ -135,8 +155,8 @@ module StateCharacteristics
         return abs(dm[dim,dim])/dm_max
     end
 
+    "This function computes the absolute deviation of the trace norm of a density operator 'ρ' from one"
     function tracenorm_diviation(ρ::Operator)
-        "This function computes..."
         return abs(1-tracenorm(ρ))
     end
 
