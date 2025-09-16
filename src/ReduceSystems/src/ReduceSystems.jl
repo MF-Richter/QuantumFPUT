@@ -1,3 +1,10 @@
+
+"""
+This module contains functions to reduce the multipartite states of a chain (be it a ket state,
+a density operator, trajectories of such, or an ensemble of ket states/trajectories) to density
+matrices of given subsystems. Using multi-variable assignment in Julia allows passing basically
+any kind of state object to the reduce_to() function.
+"""
 module ReduceSystems
 
     import QuantumOptics: Ket, Operator, dagger, tr, tracenorm, ptrace, reduced
@@ -6,7 +13,8 @@ module ReduceSystems
 
 
     """
-    This function reduces the ket vector of a multipartite system to the reduced states of given subsystems
+    This function reduces a state (ket vector/trajectory, density operator or trajectory of them...)
+    of a multipartite system to the reduced state or states of a given subsystem or subsystems.
     """  
     function reduce_to(
         ket::Ket,  # ket state of whole chain
@@ -97,9 +105,11 @@ module ReduceSystems
 
 
     """
-    This function reduces a sequence of kets - i.e. through time - to the density matrices for the combined subsystem given by 'subsystems'.
-    Note that unlike kets_to_partialdms() the function reduce_kets_partially returns for each ket a single dm representing the state of the
-    COMBINED (thus only partially reduced) subsystem and not several dms for each atomic subsystem.
+    This function reduces a sequence of ket vectors (i.e., through time) or an ensemble of them
+    to the density matrices for the combined subsystem given by 'subsystems'. Note that, unlike
+    ketstopartialdms(), the function reduceketspartially returns for each ket a single density
+    matrix representing the state of the COMBINED (thus only partially reduced) subsystem and not
+    several density matrices for each atomic subsystem.
     """
     function reduce_partially(
         ket_trajectory::Vector{<:Ket},
