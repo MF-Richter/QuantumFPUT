@@ -1,3 +1,9 @@
+"""
+With this script, one can compute two trajectories of ket states, initially starting
+with two oppositely displaced coherent states, for a FPUT chain. The two trajectories
+are saved in data/KetTrajectories for further processing.
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 

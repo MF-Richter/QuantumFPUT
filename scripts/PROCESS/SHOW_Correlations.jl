@@ -1,10 +1,14 @@
+"""
+This script loads some state trajectory from the data folder and computes the corre-
+lations between two given sites of the chain and plots them.
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Dbl___N=2_dim=15_α=0.0_β=1.0_state=coherent.jld2"
-# folder = "EnsembleTrajectories"
-folder = "KetTrajectories"
+filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+folder   = "KetTrajectories"
 
 CorrSites = (1,2)
 

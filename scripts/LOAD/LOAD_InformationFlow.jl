@@ -1,3 +1,5 @@
+"This script exemplarely loads a file from data/InformationFlow and replots is"
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 

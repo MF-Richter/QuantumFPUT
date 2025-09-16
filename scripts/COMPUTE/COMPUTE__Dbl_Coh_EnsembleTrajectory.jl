@@ -1,3 +1,10 @@
+"""
+With this script, one can compute two ensembles of Monte-Carlo wave function trajectories,
+initially starting with two oppositely displaced coherent states, for a FPUT chain with
+a thermal bath of a given temperature coupled to a given site of the chain. The two ensembles
+are saved in data/EnsembleTrajectories for further processing.
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 

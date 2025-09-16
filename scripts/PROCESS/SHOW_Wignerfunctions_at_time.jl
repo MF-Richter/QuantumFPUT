@@ -1,19 +1,21 @@
+"""
+This script loads a state trajectory and plots, for a given time (if 'T' is a float) or time index (if 'T' is an integer),
+the Wigner functions at this point in time over the local phase-spaces set by 'PlotSites'.
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Dbl__HPC-SHORT__N=4_dim=15_α=0.0_β=0.2_state=coherent.jld2"
-# folder = "EnsembleTrajectories"
+filename = "Dbl___N=2_dim=15_α=0.0_β=1.0_state=coherent.jld2"
 folder = "KetTrajectories"
-PlotSites = [1,2,3,4]
+PlotSites = [1,2]
 
 qrange = LinRange(-5, 5, 250)
 prange = LinRange(-5, 5, 250)
 
 # Time or index of plotting
-# T = 210
-# T = 500
-T = 1
+T = 5.0
 
 
 
@@ -82,7 +84,7 @@ import QuantumOptics: wigner
 if typeof(T)==Int64
     τ = T
 elseif typeof(T)==Float64
-    τ = round(Int, T/t_end * n_time)
+    τ = round(Int, T/t_end * length(periods))
 else
     error("No valid data type for time or time index")
 end
@@ -110,7 +112,7 @@ pygui(true)
 if typeof(T)==Int64
     τ = T
 elseif typeof(T)==Float64
-    τ = round(Int, T/t_end * n_time)
+    τ = round(Int, T/t_end * length(periods))
 else
     error("No valid data type for time or time index")
 end
@@ -141,7 +143,7 @@ for p in eachindex(PlotSites)
     ax.set_title("Site $site")
     ax.set_aspect(1)
     ax.tick_params(labelsize=10)
-    # ax.grid()
+    ax.grid()
 end
 
 show()

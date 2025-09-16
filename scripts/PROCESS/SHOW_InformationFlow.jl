@@ -1,14 +1,20 @@
+"""
+This script loads a double state trajectory from the data folder and computes, for given
+sites of the chain, the trace distance and the Kolmogorov distance between the Wigner functions
+of the two trajectories. It also computes the von-Neumann entropy for the first one. The distances
+and the entropy are plotted and saved as processed data in the folder:
+    data/InformationFlow
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
    
 
-filename = "Dbl___N=3_dim=15_mode=3_α=0.0_β=0.2_state=cohNoMo.jld2"
-# filename = "Dbl__TEST_N=4_dim=10_α=0.0_β=0.0_state=coherent.jld2"
-# folder = "EnsembleTrajectories"
+filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
 folder = "KetTrajectories"
-PlotSites = [1,2,3]
+PlotSites = [1,2]
 
-Prefix = "-LONGmode2"
+Prefix = ""
 
 
 #####################################

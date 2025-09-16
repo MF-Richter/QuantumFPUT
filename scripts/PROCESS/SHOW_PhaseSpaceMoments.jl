@@ -1,11 +1,17 @@
+"""
+This script loads a trajectory from the data/KetTrajectories folder and computes and plots
+the mean values and covariances of the quadratures for the local sites given in
+'PlotSites'.
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Dbl__HPC-SHORT__N=4_dim=15_α=0.0_β=0.0_state=coherent.jld2"
-PlotSites = [1]
+filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+PlotSites = [1,2]
 
-colorlist = ["lightcoral", "midnightblue", "mediumvioletred"]
+colorlist = ["tab:blue","tab:orange","tab:green","tab:purple","tab:cyan","tab:brown","tab:pink"]
 
 fs=20
 ts=15
@@ -119,54 +125,26 @@ pygui(true)
 fig, axs = subplots()
 fig.suptitle("Quantum phase-space meanvalues", fontsize=fs)
 for p in eachindex(PlotSites)
-    axs.plot(periods, array_positions[:,p], color=colorlist[1], lw=3, label=L"$\langle q \rangle_\rho$")
-    axs.plot(periods, array_momentums[:,p], color=colorlist[2], lw=3, label=L"$\langle p \rangle_\rho$")
+    axs.plot(periods, array_positions[:,p], ls="solid",  color=colorlist[p], lw=3, label=L"$\langle q \rangle_\rho$"*" of site$(PlotSites[p])")
+    axs.plot(periods, array_momentums[:,p], ls="dashed", color=colorlist[p], lw=3, label=L"$\langle p \rangle_\rho$"*" of site$(PlotSites[p])")
 end
 axs.set_xlim([t_start-0.01, t_end+0.01])
 axs.set_xlabel(L"time $t \cdot \frac{2\pi}{\sqrt{\kappa}}$", fontsize=fs)
 axs.tick_params(labelsize=ts)
-axs.legend(fontsize="xx-large", loc="upper right")
+axs.legend(fontsize=ts, loc="upper right")
 axs.grid()
 show()
 
 fig, axs = subplots()
 fig.suptitle("Quantum phase-space (co-) variances", fontsize=fs)
 for p in eachindex(PlotSites)
-    axs.plot(periods,  array_VarsQ[:,p], color=colorlist[1], lw=3, label=L"$\sigma_{qq}^\rho$")
-    axs.plot(periods,  array_VarsP[:,p], color=colorlist[2], lw=3, label=L"$\sigma_{pp}^\rho$")
-    axs.plot(periods, array_CovsQP[:,p], color=colorlist[3], lw=3, label=L"$\sigma_{qp}^\rho$")
+    axs.plot(periods,  array_VarsQ[:,p],ls="solid",  color=colorlist[p], lw=3, label=L"$\sigma_{qq}^\rho$"*" of site$(PlotSites[p])")
+    axs.plot(periods,  array_VarsP[:,p],ls="dashed", color=colorlist[p], lw=3, label=L"$\sigma_{pp}^\rho$"*" of site$(PlotSites[p])")
+    axs.plot(periods, array_CovsQP[:,p],ls="dotted", color=colorlist[p], lw=3, label=L"$\sigma_{qp}^\rho$"*" of site$(PlotSites[p])")
 end
 axs.set_xlim([t_start-0.01, t_end+0.01])
 axs.set_xlabel(L"time $t \cdot \frac{2\pi}{\sqrt{\kappa}}$", fontsize=fs)
 axs.tick_params(labelsize=ts)
-axs.legend(fontsize="xx-large", loc="upper right")
+axs.legend(fontsize=ts, loc="upper right")
 axs.grid()
 show()
-
-# fig, axs = subplots(nrows=2,ncols=1)
-# fig.suptitle("Hilbert space characterstics")
-# for p in eachindex(PlotSites)
-#     axs[1].plot(periods, array_Nmeans[:,p], alpha=0.5, label="osc. $(PlotSites[p])")
-#     axs[2].plot(periods,  array_Nvars[:,p], alpha=0.5, label="osc. $(PlotSites[p])")
-# end
-# axs[1].grid()
-# axs[1].legend()
-# axs[1].set_xlim([t_start-0.01, t_end+0.01])
-# axs[1].set_title("mean value of number op. <N>")
-# axs[2].grid()
-# axs[2].legend()
-# axs[2].set_xlim([t_start-0.01, t_end+0.01])
-# axs[2].set_title("variance of number op. <N²>-<N>²")
-# show()
-
-
-
-# fig,axs = subplots()
-# fig.suptitle("Dimension Cutoff Error")
-# for p in eachindex(PlotSites)
-#     axs.plot(periods, array_dimerrors[:,p], alpha=0.5, label="osc. $(PlotSites[p])")
-# end
-# axs.grid()
-# axs.legend()
-# axs.set_xlim([t_start-0.01, t_end+0.01])
-# show()

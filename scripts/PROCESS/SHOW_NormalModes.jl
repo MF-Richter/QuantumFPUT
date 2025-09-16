@@ -1,7 +1,13 @@
+"""
+This script loads some state trajectories from the data folder and computes the mean values and
+covariance matrices for the chain's normal mode quadratures and plots them.
+"""
+
 using DrWatson
 @quickactivate "QuantumFPUT"
 
-filename = "Dbl__HPC-LONG__N=4_dim=15_α=0.0_β=0.2_state=coherent.jld2"
+filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+folder   = "KetTrajectories"
 
 
 
@@ -11,14 +17,12 @@ filename = "Dbl__HPC-LONG__N=4_dim=15_α=0.0_β=0.2_state=coherent.jld2"
 
 using JLD2
 import QuantumOptics: Ket, Operator, FockBasis
-# file = load(datadir("EnsembleTrajectories", filename))
-file = load(datadir("KetTrajectories", filename))
+file = load(datadir(folder, filename))
 
 parameters     = file["parameters"]
 periods        = file["periods"]
 t_start, t_end = first(periods), last(periods)
 
-# trajectory = file["ensemble_trajectories"]
 states = file["states1"]
 
 
@@ -84,37 +88,30 @@ end
 
 Qs = Vector{Operator}(undef, N)
 Ps = Vector{Operator}(undef, N)
-Ns = Vector{Operator}(undef, N)
 
 QQs = Vector{Operator}(undef, N)
 PPs = Vector{Operator}(undef, N)
 QPs = Vector{Operator}(undef, N)
-NNs = Vector{Operator}(undef, N)
 
 @time for mode in 1:N
     Position,Momentum = QuadraturesNormalMode(N,mode,FockBasis(dim))
-    Number   = NumberoperatorNormalMode(N,mode,FockBasis(dim))
 
     Qs[mode] = Position
     Ps[mode] = Momentum
-    Ns[mode] = Number
 
     QQs[mode] = 2 * Position*Position
     PPs[mode] = 2 * Momentum*Momentum
     QPs[mode] = Position*Momentum + Momentum*Position
-    NNs[mode] = 2 * Number*Number
 end
 
 array_QmeansNM = means(Qs,states)
 array_PmeansNM = means(Ps,states)
-array_NmeansNM = means(Ns,states)
 
 array_μsNM = sqrt.(array_QmeansNM.^2 + array_PmeansNM.^2)
 
 array_QQvarsNM = means(QQs, states) - 2*array_QmeansNM.^2
 array_PPvarsNM = means(PPs, states) - 2*array_PmeansNM.^2
 array_QPvarsNM = means(QPs, states) - 2*array_QmeansNM.*array_PmeansNM
-array_NNvarsNM = means(NNs, states) - 2*array_NmeansNM.^2
 
 array_detCovsNM = varμ.(array_QQvarsNM, array_PPvarsNM, array_QPvarsNM)
 
@@ -128,37 +125,11 @@ array_detCovsNM = varμ.(array_QQvarsNM, array_PPvarsNM, array_QPvarsNM)
 using PyPlot, LaTeXStrings
 pygui(true)
 
-fig, axs = subplots(nrows=2,ncols=1)
-fig.suptitle("Normal Modes: Number Means and Varainces")
-
-for mode in 1:N
-    axs[1].plot(periods, array_NmeansNM[:,mode], label="normal mode $mode")
-    axs[2].plot(periods, array_NNvarsNM[:,mode], label="normal mode $mode")
-end
-
-axs[1].grid()
-axs[1].legend()
-axs[1].set_xlim([t_start-0.01, t_end+0.01])
-axs[1].set_ylim([0.0, maximum(array_NmeansNM)+0.01])
-axs[1].set_ylabel(L"$\langle N \rangle$")
-
-axs[2].grid()
-axs[2].legend()
-axs[2].set_xlim([t_start-0.01, t_end+0.01])
-axs[2].set_ylim([0.0, maximum(array_NNvarsNM)+0.01])
-axs[2].set_xlabel(L"time $t \cdot \frac{2\pi}{\sqrt{\kappa}}$")
-axs[2].set_ylabel(L"$2\langle N^2 \rangle - 2 \langle N \rangle^2$")
-
-show()
-
-
 
 fig, axs = subplots(nrows=2,ncols=1)
 fig.suptitle("Normal Modes: Phase-Space Means and (Co)variances")
 
 for mode in 1:N
-    # axs[1].plot(periods, array_μsNM[:,mode], label="normal mode $mode")
-    # axs[1].set_ylim([0.0, maximum(array_μsNM)+0.1])
     axs[1].plot(periods, array_QmeansNM[:,mode],  label="normal mode $mode")
     axs[2].plot(periods, array_detCovsNM[:,mode], label="normal mode $mode")
 end
