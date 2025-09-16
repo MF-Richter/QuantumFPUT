@@ -16,7 +16,7 @@ r = 2.0
 
 # Number of chain elements and dim. cutoff of single Hilbert spaces
 N = 3
-dim = 15
+dim = 10
 
 
 ## Coupling parameters
@@ -42,11 +42,11 @@ BathSites = [2]
 # t_end... final time measured in single oscillator periodes
 # n_time... number of time steps
 t_0 = 0.0
-t_end =  200.0
-n_time = 8000
+t_end =  50.0
+n_time = 200
 
 # optinal prefix for the name of the data file
-Prefix = ""
+Prefix = "TEST"
 
 
 

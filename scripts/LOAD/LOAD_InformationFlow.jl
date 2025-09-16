@@ -4,10 +4,9 @@ using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Distances(t)-SHORT__N=4_dim=15_α=0.0_β=0.2_state=coherent.jld2"
-PlotSites = [1,2,3,4]
+filename = "Distances(t)_N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+PlotSites = [1,2]
 
-# colorlist = ["k","lightcoral","teal","tab:orange","tab:cyan","tab:brown","tab:pink"]
 colorlist = ["midnightblue", "lightskyblue", "crimson", "orange"]
 
 fs=25

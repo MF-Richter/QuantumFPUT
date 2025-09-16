@@ -8,7 +8,7 @@ using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+filename = "Dbl__TEST_N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
 PlotSites = [1,2]
 
 colorlist = ["tab:blue","tab:orange","tab:green","tab:purple","tab:cyan","tab:brown","tab:pink"]

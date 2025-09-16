@@ -19,7 +19,7 @@ r = 1.5
 # β... strength of S⁴-term in FPUT interaction
 κ = 1.0
 α = 0.0
-β = 1.0
+β = 0.0
 
 ## Bath parameters
 # kbT...       temperature of the bath
@@ -38,11 +38,11 @@ dim = 15
 # t_end... final time measured in single oscillator periodes
 # n_time... number of time steps
 t_0 = 0.0
-t_end =  20.0
-n_time = 800
+t_end =  10.0
+n_time = 200
 
 # optinal prefix for the name of the data file
-Prefix = ""
+Prefix = "TEST"
 
 
 

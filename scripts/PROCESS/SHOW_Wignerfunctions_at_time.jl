@@ -7,7 +7,7 @@ using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Dbl___N=2_dim=15_α=0.0_β=1.0_state=coherent.jld2"
+filename = "Dbl__TEST_N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
 folder = "KetTrajectories"
 PlotSites = [1,2]
 

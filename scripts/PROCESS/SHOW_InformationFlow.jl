@@ -10,8 +10,12 @@ using DrWatson
 @quickactivate "QuantumFPUT"
    
 
-filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
-folder = "KetTrajectories"
+# # filename = "Dbl__TEST_N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+# filename = "Dbl__TEST_N=3_dim=10_mode=3_α=0.0_β=0.2_state=cohNoMo.jld2"
+# folder = "KetTrajectories"
+
+filename = "Dbl__TEST_N=2_dim=15_n_mcwf=100_α=0.0_β=0.0_kbT=0.0_γ=0.25_state=coherent.jld2"
+folder = "EnsembleTrajectories"
 PlotSites = [1,2]
 
 Prefix = ""

@@ -92,11 +92,11 @@ module HamiltonianFPUT
         # FPUT potential
         potential(O::Operator) = κ/2*O^2 + α/6*O^3 + β/24*O^4
 
-        V = potential_factor * potential(-operator_at_site(Q,N,1))
+        V = potential(-operator_at_site(Q,N,1))
         for i in 1:(N-1)
-            V += potential_factor * potential(operator_at_site(Q,N,i) - operator_at_site(Q,N,i+1))
+            V += potential(operator_at_site(Q,N,i) - operator_at_site(Q,N,i+1))
         end
-        V += potential_factor * potential(operator_at_site(Q,N,N))
+        V += potential(operator_at_site(Q,N,N))
         return V
     end
 

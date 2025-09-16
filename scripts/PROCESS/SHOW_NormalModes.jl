@@ -6,7 +6,7 @@ covariance matrices for the chain's normal mode quadratures and plots them.
 using DrWatson
 @quickactivate "QuantumFPUT"
 
-filename = "Dbl___N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+filename = "Dbl__TEST_N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
 folder   = "KetTrajectories"
 
 
@@ -80,7 +80,7 @@ println("\n")
 ##########   Compute Data   ##########
 ######################################
 
-import NormalModes: QuadraturesNormalMode, NumberoperatorNormalMode, means
+import NormalModes: QuadraturesNormalMode, means
 function varμ(varQQ, varPP, varQP)
     return sqrt(varQQ*varPP - varQP^2)
 end
@@ -137,13 +137,13 @@ end
 axs[1].grid()
 axs[1].legend()
 axs[1].set_xlim([t_start-0.01, t_end+0.01])
-axs[1].set_ylabel(L"$|\vec{\mu}|^2$")
+axs[1].set_ylabel(L"$\langle Q_\mathrm{NM} \rangle$")
 
 axs[2].grid()
 axs[2].legend()
 axs[2].set_xlim([t_start-0.01, t_end+0.01])
 axs[2].set_ylim([0.0, maximum(array_detCovsNM)+0.01])
 axs[2].set_xlabel(L"time $t \cdot \frac{2\pi}{\sqrt{\kappa}}$")
-axs[2].set_ylabel(L"$\sqrt{\mathrm{det} \Sigma}$")
+axs[2].set_ylabel(L"$\sqrt{\mathrm{det} \Sigma_\mathrm{NM}}$")
 
 show()
