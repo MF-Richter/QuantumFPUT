@@ -21,14 +21,14 @@ r = 1.5
 # γ...   coupling strength of the bath
 # BathSites... sites where to attache the bath to
 kbT = 0.0
-γ   = 0.5
+γ   = 0.0
 BathSites = [2]
 
 ## Parameters of the chain and numerical approximation
 # Number of chain elements and dim. cutoff of single Hilbert spaces
-N = 3
-dim = 10
-n_mcwf = 5
+N = 2
+dim = 15
+n_mcwf = 1
 
 ## Parameters of time
 # t_0... initial time measured in single oscillator periodes
@@ -39,7 +39,7 @@ t_end =  20.0
 n_time = 800
 
 # optinal prefix for the name of the data file
-Prefix = "TEST"
+Prefix = ""
 
 
 

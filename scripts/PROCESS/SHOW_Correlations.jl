@@ -2,11 +2,11 @@ using DrWatson
 @quickactivate "QuantumFPUT"
 
 
-filename = "Dbl__SHORT_N=2_dim=15_α=0.0_β=0.0_state=coherent.jld2"
+filename = "Dbl___N=2_dim=15_α=0.0_β=1.0_state=coherent.jld2"
 # folder = "EnsembleTrajectories"
 folder = "KetTrajectories"
 
-CorrSites = [1,2]
+CorrSites = (1,2)
 
 
 
